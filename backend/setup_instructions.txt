@@ -1,0 +1,34 @@
+# Django Backend Setup Instructions
+
+1. Create and activate a virtual environment:
+   python3 -m venv venv
+   source venv/bin/activate
+
+2. Install dependencies:
+   pip install -r requirements.txt
+
+3. Start the Django project:
+   django-admin startproject eventms_backend .
+
+4. Create the apps:
+   python manage.py startapp events
+   python manage.py startapp registrations
+   python manage.py startapp tickets
+
+5. Add the following to INSTALLED_APPS in eventms_backend/settings.py:
+   - rest_framework
+   - corsheaders
+   - events
+   - registrations
+   - tickets
+
+6. Add 'corsheaders.middleware.CorsMiddleware' to MIDDLEWARE in settings.py (top, after SecurityMiddleware).
+
+7. Add to settings.py:
+   CORS_ALLOW_ALL_ORIGINS = True
+
+8. Run migrations:
+   python manage.py migrate
+
+9. Run the server:
+   python manage.py runserver
