@@ -112,18 +112,33 @@ function RegisterEvent() {
 
   if (!event) {
     return (
-      <div style={{ maxWidth: 500, margin: '48px auto', padding: 32 }}>
-        <div style={{ background: 'rgba(255,255,255,0.95)', borderRadius: 12, padding: 32, textAlign: 'center', border: '1px solid #6b8cae' }}>
+      <div style={{
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px'
+      }}>
+        <div style={{
+          background: 'rgba(255,255,255,0.03)',
+          border: '1px solid rgba(148,163,184,0.2)',
+          borderRadius: 20,
+          padding: 40,
+          textAlign: 'center',
+          backdropFilter: 'blur(20px)',
+          boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+        }}>
           <div style={{
-            width: 40,
-            height: 40,
-            border: '3px solid #e5e7eb',
-            borderTopColor: '#f59e0b',
+            width: 50,
+            height: 50,
+            border: '4px solid rgba(245,158,11,0.3)',
+            borderTop: '4px solid #f59e0b',
             borderRadius: '50%',
             animation: 'spin 1s linear infinite',
             margin: '0 auto 16px'
           }} />
-          <p style={{ color: '#6b8cae', fontSize: 18 }}>Loading event...</p>
+          <p style={{ color: '#cbd5e1', fontSize: 18, fontWeight: 600 }}>Loading event...</p>
           <style>{`
             @keyframes spin {
               to { transform: rotate(360deg); }
@@ -135,7 +150,28 @@ function RegisterEvent() {
   }
 
   return (
-    <div style={{ maxWidth: 500, margin: '48px auto', padding: 32 }}>
+    <div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+      padding: '80px 20px'
+    }}>
+      {/* Background Effects */}
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'radial-gradient(circle at 30% 50%, rgba(245,158,11,0.08), transparent 50%)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'radial-gradient(circle at 70% 80%, rgba(59,130,246,0.06), transparent 50%)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
+
+      <div style={{ maxWidth: 600, margin: '0 auto', position: 'relative', zIndex: 1 }}>
       {/* Payment Modal */}
       {showPayment && (
         <div style={{
@@ -196,7 +232,7 @@ function RegisterEvent() {
                   padding: 24, 
                   textAlign: 'center' 
                 }}>
-                  <div style={{ fontSize: 32, marginBottom: 8 }}>💳</div>
+                  <img src="/G_Pay.png" alt="" style={{ width: 40, height: 40, marginBottom: 8 }} />
                   <h2 style={{ color: '#fff', margin: 0, fontSize: 20 }}>Secure Payment</h2>
                   <p style={{ color: 'rgba(255,255,255,0.8)', margin: '8px 0 0 0', fontSize: 14 }}>
                     Complete your registration for {event.title}
@@ -343,13 +379,13 @@ function RegisterEvent() {
                           Processing...
                         </>
                       ) : (
-                        <>🔒 Pay ${parseFloat(event.price).toFixed(2)}</>
+                        <><img src="/security.png" alt="" style={{ width: 16, height: 16, marginRight: 6, verticalAlign: 'middle' }} /> Pay ${parseFloat(event.price).toFixed(2)}</>
                       )}
                     </button>
                   </div>
 
                   <p style={{ color: '#9ca3af', fontSize: 12, textAlign: 'center', marginTop: 16 }}>
-                    🔒 This is a demo payment. No real charges will be made.
+                    <img src="/security.png" alt="" style={{ width: 12, height: 12, marginRight: 4, verticalAlign: 'middle' }} /> This is a demo payment. No real charges will be made.
                   </p>
                 </div>
               </>
@@ -483,7 +519,7 @@ function RegisterEvent() {
 
           <div style={{ background: '#f8fafc', borderRadius: 8, padding: 16, marginBottom: 24 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#6b8cae' }}>👤 Registering as</span>
+              <span style={{ color: '#6b8cae', display: 'flex', alignItems: 'center', gap: 6 }}><img src="/people.png" alt="" style={{ width: 20, height: 20 }} /> Registering as</span>
               <span style={{ color: '#f59e0b', fontWeight: 600 }}>{user.username}</span>
             </div>
           </div>
@@ -587,7 +623,9 @@ function RegisterEvent() {
                   }} />
                   Processing...
                 </>
-              ) : event.is_paid ? `💳 Pay $${parseFloat(event.price).toFixed(2)} & Register` : "✓ Confirm Registration"}
+              ) : event.is_paid ? (
+                <><img src="/G_Pay.png" alt="" style={{ width: 20, height: 20, verticalAlign: 'middle', marginRight: 6 }} />Pay ${parseFloat(event.price).toFixed(2)} & Register</>
+              ) : "✓ Confirm Registration"}
             </button>
           )}
           <style>{`
@@ -596,6 +634,7 @@ function RegisterEvent() {
             }
           `}</style>
         </div>
+      </div>
       </div>
     </div>
   );

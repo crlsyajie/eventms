@@ -14,6 +14,7 @@ import Tickets from "./pages/Tickets";
 import AdminEvents from "./pages/AdminEvents";
 import AdminRegistrations from "./pages/AdminRegistrations";
 import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
 import SideNavbar from "./components/SideNavbar";
 
 function ProtectedRoute({ children, adminOnly }) {
@@ -37,6 +38,7 @@ function AppRoutes() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/client-events" element={<ProtectedRoute><ClientEvents /></ProtectedRoute>} />
           <Route path="/client-dashboard" element={<ProtectedRoute><ClientDashboard /></ProtectedRoute>} />
           <Route path="/register-event/:id" element={<ProtectedRoute><RegisterEvent /></ProtectedRoute>} />

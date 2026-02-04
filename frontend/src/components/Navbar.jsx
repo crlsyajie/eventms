@@ -90,6 +90,7 @@ function Navbar() {
         {user ? (
           <>
             <span style={{ color: "#a8c5db" }}>Hi, {user.username} {user.is_admin && <span style={{ color: "#f59e0b" }}>(Admin)</span>}</span>
+            <NavLink to="/profile">Profile</NavLink>
             <button 
               onClick={handleLogout} 
               style={{ background: "#f59e0b", color: "#1a2744", border: 0, borderRadius: 6, padding: "8px 16px", fontWeight: 600, cursor: "pointer", transition: "all 0.2s" }}

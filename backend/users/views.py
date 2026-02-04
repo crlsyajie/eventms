@@ -1,6 +1,6 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, permissions
 from django.contrib.auth import authenticate
 from .models import User
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
@@ -34,3 +34,86 @@ def user_list(request):
     users = User.objects.all()
     serializer = UserSerializer(users, many=True)
     return Response({'users': serializer.data})
+
+@api_view(['GET', 'PUT'])
+@permission_classes([permissions.IsAuthenticated])
+def profile_view(request):
+    # For now, use the first user as we don't have proper token auth
+    # In production, this would be request.user
+    users = User.objects.all()
+    if not users.exists():
+        return Response({'error': 'No users found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    # Get user from username in request if updating, otherwise get first user
+    if request.method == 'PUT':
+        current_username = request.data.get('current_username')
+        if current_username:
+            try:
+                user = User.objects.get(username=current_username)
+            except User.DoesNotExist:
+                user = users.first()
+        else:
+            user = users.first()
+    else:
+        user = users.first()  # For GET request
+    
+    if request.method == 'GET':
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            # Check if username is being changed and if it's already taken
+            if 'username' in serializer.validated_data:
+                new_username = serializer.validated_data['username']
+                if new_username != user.username and User.objects.filter(username=new_username).exists():
+                    return Response({'username': ['This username is already taken.']}, 
+                                  status=status.HTTP_400_BAD_REQUEST)
+            
+            # Check if email is being changed and if it's already taken
+            if 'email' in serializer.validated_data:
+                new_email = serializer.validated_data['email']
+                if new_email != user.email and User.objects.filter(email=new_email).exists():
+                    return Response({'email': ['This email is already taken.']}, 
+                                  status=status.HTTP_400_BAD_REQUEST)
+            
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+def update_profile(request):
+    # Get user from request data (simplified - in production use proper authentication)
+    username = request.data.get('username')
+    email = request.data.get('email')
+    
+    # Find user by their current username stored in localStorage
+    # This is a simplified approach - in production, use proper token authentication
+    try:
+        # Try to find by the new username first, if it's different from current
+        stored_user = None
+        for user in User.objects.all():
+            if user.username == username or user.email == email:
+                stored_user = user
+                break
+        
+        if not stored_user:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        # Check if username is taken by another user
+        if username != stored_user.username and User.objects.filter(username=username).exists():
+            return Response({'error': 'Username already taken'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Check if email is taken by another user
+        if email != stored_user.email and User.objects.filter(email=email).exists():
+            return Response({'error': 'Email already taken'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Update user
+        stored_user.username = username
+        stored_user.email = email
+        stored_user.save()
+        
+        return Response(UserSerializer(stored_user).data)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

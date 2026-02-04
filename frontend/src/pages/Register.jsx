@@ -33,89 +33,311 @@ function Register() {
   // Loading overlay with spinner
   if (loading) {
     return (
-      <div style={{ 
-        position: 'fixed', 
-        top: 0, 
-        left: 0, 
-        right: 0, 
-        bottom: 0, 
-        background: 'linear-gradient(135deg, #1a2744 0%, #2a3f5f 100%)', 
-        display: 'flex', 
+      <div style={{
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+        display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center', 
-        justifyContent: 'center',
-        zIndex: 9999
+        alignItems: 'center',
+        justifyContent: 'center'
       }}>
         <div style={{
-          width: 60,
-          height: 60,
-          border: '4px solid rgba(255,255,255,0.2)',
-          borderTopColor: '#f59e0b',
+          width: 50,
+          height: 50,
+          border: '4px solid rgba(245,158,11,0.3)',
+          borderTop: '4px solid #f59e0b',
           borderRadius: '50%',
-          animation: 'spin 1s linear infinite',
-          marginBottom: 24
+          animation: 'spin 1s linear infinite'
         }} />
-        <p style={{ color: '#fff', fontSize: 20, fontWeight: 500 }}>Creating your account...</p>
-        <p style={{ color: '#a8c5db', fontSize: 14, marginTop: 8 }}>Redirecting to login...</p>
-        <style>{`
-          @keyframes spin {
-            to { transform: rotate(360deg); }
-          }
-        `}</style>
+        <p style={{ color: '#cbd5e1', marginTop: 16, fontSize: 18, fontWeight: 600 }}>Creating account...</p>
+        <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }
 
   return (
-    <div style={{ maxWidth: 400, margin: "80px auto", background: "rgba(255,255,255,0.95)", borderRadius: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.3)", padding: 40, border: "1px solid #6b8cae" }}>
-      <div style={{ textAlign: "center", marginBottom: 24 }}>
-        <img src="/logo.png" alt="Logo" style={{ height: 80, marginBottom: 16 }} onError={(e)=>e.target.style.display='none'} />
-        <h2 style={{ margin: 0, color: "#1a2744" }}>Register</h2>
-      </div>
-      {error && <div style={{ color: "#dc2626", marginBottom: 16, textAlign: "center" }}>{error}</div>}
-      <form onSubmit={handleRegister}>
-        <label style={{ color: "#2a3f5f", fontWeight: 500, marginBottom: 8, display: "block" }}>Username</label>
-        <input
-          style={{ width: "100%", padding: 12, borderRadius: 6, border: "1px solid #6b8cae", marginBottom: 16, fontSize: 16, boxSizing: "border-box" }}
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <label style={{ color: "#2a3f5f", fontWeight: 500, marginBottom: 8, display: "block" }}>Email</label>
-        <input
-          type="email"
-          style={{ width: "100%", padding: 12, borderRadius: 6, border: "1px solid #6b8cae", marginBottom: 16, fontSize: 16, boxSizing: "border-box" }}
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <label style={{ color: "#2a3f5f", fontWeight: 500, marginBottom: 8, display: "block" }}>Password</label>
-        <input
-          type="password"
-          style={{ width: "100%", padding: 12, borderRadius: 6, border: "1px solid #6b8cae", marginBottom: 16, fontSize: 16, boxSizing: "border-box" }}
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <label style={{ display: "flex", alignItems: "center", marginBottom: 24, cursor: "pointer" }}>
+    <div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '20px'
+    }}>
+      {/* Background Effects */}
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'radial-gradient(circle at 30% 50%, rgba(245,158,11,0.1), transparent 50%)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'radial-gradient(circle at 70% 80%, rgba(59,130,246,0.08), transparent 50%)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
+
+      <div style={{
+        maxWidth: 480,
+        width: '100%',
+        background: 'rgba(255,255,255,0.03)',
+        border: '1px solid rgba(148,163,184,0.2)',
+        borderRadius: 20,
+        padding: 48,
+        backdropFilter: 'blur(20px)',
+        boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+        position: 'relative',
+        zIndex: 1
+      }}>
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <div style={{
+            display: 'inline-block',
+            padding: '8px 20px',
+            background: 'rgba(245,158,11,0.1)',
+            border: '1px solid rgba(245,158,11,0.3)',
+            borderRadius: 30,
+            marginBottom: 24,
+            fontSize: '0.9rem',
+            color: '#f59e0b',
+            fontWeight: 600,
+            letterSpacing: '0.05em'
+          }}>
+            <img src="/sparkle.png" alt="" style={{ width: 16, height: 16, marginRight: 8, verticalAlign: 'middle' }} /> CREATE ACCOUNT
+          </div>
+          <h1 style={{
+            fontSize: '2.2rem',
+            fontWeight: 800,
+            color: '#ffffff',
+            marginBottom: 8,
+            letterSpacing: '0.02em'
+          }}>
+            Join LEON
+          </h1>
+          <p style={{
+            color: '#cbd5e1',
+            fontSize: '1rem'
+          }}>
+            Create your account to get started
+          </p>
+        </div>
+
+        {error && (
+          <div style={{
+            padding: '16px 20px',
+            background: 'rgba(239,68,68,0.1)',
+            border: '1px solid rgba(239,68,68,0.3)',
+            borderRadius: 12,
+            color: '#ef4444',
+            marginBottom: 24,
+            fontSize: '0.95rem',
+            fontWeight: 500,
+            textAlign: 'center'
+          }}>
+            ✗ {error}
+          </div>
+        )}
+
+        <form onSubmit={handleRegister}>
+        <div style={{ marginBottom: 20 }}>
+          <label style={{
+            display: 'block',
+            marginBottom: 8,
+            color: '#e5e7eb',
+            fontWeight: 600,
+            fontSize: '0.95rem'
+          }}>
+            Username
+          </label>
           <input
-            type="checkbox"
-            checked={isClient}
-            onChange={(e) => setIsClient(e.target.checked)}
-            style={{ marginRight: 8 }}
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            style={{
+              width: '100%',
+              padding: '14px 16px',
+              background: 'rgba(15,23,42,0.5)',
+              border: '1px solid rgba(148,163,184,0.2)',
+              borderRadius: 12,
+              color: '#e5e7eb',
+              fontSize: '1rem',
+              transition: 'all 0.3s ease',
+              boxSizing: 'border-box'
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = 'rgba(245,158,11,0.5)';
+              e.target.style.boxShadow = '0 0 0 3px rgba(245,158,11,0.1)';
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = 'rgba(148,163,184,0.2)';
+              e.target.style.boxShadow = 'none';
+            }}
           />
-          <span style={{ color: "#2a3f5f" }}>Register as Client/Company (can submit events)</span>
-        </label>
-        <button type="submit" style={{ width: "100%", background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)", color: "#1a2744", border: 0, borderRadius: 6, padding: 14, fontSize: 18, fontWeight: 600, cursor: "pointer", boxShadow: "0 4px 12px rgba(245,158,11,0.4)" }}>
-          Register
+        </div>
+        
+        <div style={{ marginBottom: 20 }}>
+          <label style={{
+            display: 'block',
+            marginBottom: 8,
+            color: '#e5e7eb',
+            fontWeight: 600,
+            fontSize: '0.95rem'
+          }}>
+            Email Address
+          </label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            style={{
+              width: '100%',
+              padding: '14px 16px',
+              background: 'rgba(15,23,42,0.5)',
+              border: '1px solid rgba(148,163,184,0.2)',
+              borderRadius: 12,
+              color: '#e5e7eb',
+              fontSize: '1rem',
+              transition: 'all 0.3s ease',
+              boxSizing: 'border-box'
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = 'rgba(245,158,11,0.5)';
+              e.target.style.boxShadow = '0 0 0 3px rgba(245,158,11,0.1)';
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = 'rgba(148,163,184,0.2)';
+              e.target.style.boxShadow = 'none';
+            }}
+          />
+        </div>
+        
+        <div style={{ marginBottom: 20 }}>
+          <label style={{
+            display: 'block',
+            marginBottom: 8,
+            color: '#e5e7eb',
+            fontWeight: 600,
+            fontSize: '0.95rem'
+          }}>
+            Password
+          </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            style={{
+              width: '100%',
+              padding: '14px 16px',
+              background: 'rgba(15,23,42,0.5)',
+              border: '1px solid rgba(148,163,184,0.2)',
+              borderRadius: 12,
+              color: '#e5e7eb',
+              fontSize: '1rem',
+              transition: 'all 0.3s ease',
+              boxSizing: 'border-box'
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = 'rgba(245,158,11,0.5)';
+              e.target.style.boxShadow = '0 0 0 3px rgba(245,158,11,0.1)';
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = 'rgba(148,163,184,0.2)';
+              e.target.style.boxShadow = 'none';
+            }}
+          />
+        </div>
+        
+        <div style={{ marginBottom: 32 }}>
+          <label style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            cursor: 'pointer',
+            color: '#e5e7eb',
+            fontSize: '0.95rem'
+          }}>
+            <input
+              type="checkbox"
+              checked={isClient}
+              onChange={(e) => setIsClient(e.target.checked)}
+              style={{
+                width: 18,
+                height: 18,
+                accentColor: '#f59e0b'
+              }}
+            />
+            Register as Client (Event Organizer)
+          </label>
+        </div>
+        
+        <button 
+          type="submit"
+          style={{
+            width: '100%',
+            padding: '16px',
+            background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+            color: '#1e293b',
+            border: 'none',
+            borderRadius: 12,
+            fontSize: '1.1rem',
+            fontWeight: 700,
+            letterSpacing: '0.02em',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            boxShadow: '0 10px 30px rgba(245,158,11,0.3)'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'translateY(-2px)';
+            e.target.style.boxShadow = '0 15px 35px rgba(245,158,11,0.4)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'translateY(0)';
+            e.target.style.boxShadow = '0 10px 30px rgba(245,158,11,0.3)';
+          }}
+        >
+          Create Account
         </button>
       </form>
-      <p style={{ marginTop: 24, textAlign: "center", color: "#6b8cae" }}>
-        Already have an account? <Link to="/login" style={{ color: "#f59e0b", fontWeight: 600 }}>Login</Link>
-      </p>
-      <p style={{ marginTop: 12, textAlign: "center" }}>
-        <Link to="/" style={{ color: "#a8c5db", fontSize: "0.9rem", textDecoration: "none" }}>Back to Home</Link>
-      </p>
+      
+      <div style={{ 
+        textAlign: 'center', 
+        marginTop: 24, 
+        paddingTop: 24, 
+        borderTop: '1px solid rgba(148,163,184,0.1)' 
+      }}>
+        <p style={{ color: '#94a3b8', fontSize: '0.95rem', margin: 0 }}>
+          Already have an account?{" "}
+          <Link 
+            to="/login" 
+            style={{ 
+              color: '#f59e0b', 
+              textDecoration: 'none', 
+              fontWeight: 600,
+              transition: 'color 0.2s'
+            }}
+            onMouseEnter={(e) => e.target.style.color = '#d97706'}
+            onMouseLeave={(e) => e.target.style.color = '#f59e0b'}
+          >
+            Sign In
+          </Link>
+        </p>
+        <p style={{ color: '#64748b', fontSize: '0.9rem', marginTop: 12, margin: '12px 0 0 0' }}>
+          <Link 
+            to="/" 
+            style={{ color: '#94a3b8', textDecoration: 'none', transition: 'color 0.2s' }}
+            onMouseEnter={(e) => e.target.style.color = '#cbd5e1'}
+            onMouseLeave={(e) => e.target.style.color = '#94a3b8'}
+          >
+            ← Back to Home
+          </Link>
+        </p>
+      </div>
+      </div>
     </div>
   );
 }

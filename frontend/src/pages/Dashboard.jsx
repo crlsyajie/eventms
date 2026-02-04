@@ -87,45 +87,268 @@ function Dashboard() {
 
   if (loading) {
     return (
-      <div className="loading-screen">
-        <img src="/logo.png" alt="Loading" className="loading-logo" />
-        <p className="loading-text">Loading dashboard...</p>
+      <div style={{
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div style={{
+          width: 50,
+          height: 50,
+          border: '4px solid rgba(245,158,11,0.3)',
+          borderTop: '4px solid #f59e0b',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }} />
+        <p style={{ color: '#cbd5e1', marginTop: 16, fontSize: 18, fontWeight: 600 }}>Loading dashboard...</p>
+        <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }
 
   return (
-    <div style={{ maxWidth: 1100, margin: '48px auto', padding: 32 }}>
-      <h2 style={{ marginBottom: 32, fontSize: 28, color: '#fff', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>Admin Dashboard</h2>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 24, marginBottom: 40 }}>
-        <div style={{ background: 'linear-gradient(135deg, #1a2744 0%, #2a3f5f 100%)', color: '#fff', borderRadius: 12, padding: 24, textAlign: 'center', boxShadow: '0 4px 16px rgba(0,0,0,0.3)', border: '1px solid #6b8cae' }}>
-          <div style={{ fontSize: 36, fontWeight: 700, color: '#f59e0b' }}>{stats.events}</div>
-          <div style={{ fontSize: 16, marginTop: 8, color: '#a8c5db' }}>Total Events</div>
-        </div>
-        <div style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', color: '#1a2744', borderRadius: 12, padding: 24, textAlign: 'center', boxShadow: '0 4px 16px rgba(245,158,11,0.3)', cursor: 'pointer' }} onClick={() => navigate('/admin/events')}>
-          <div style={{ fontSize: 36, fontWeight: 700 }}>{stats.pending}</div>
-          <div style={{ fontSize: 16, marginTop: 8, fontWeight: 600 }}>Pending Review</div>
-        </div>
-        <div style={{ background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', color: '#fff', borderRadius: 12, padding: 24, textAlign: 'center', boxShadow: '0 4px 16px rgba(16,185,129,0.3)' }}>
-          <div style={{ fontSize: 36, fontWeight: 700 }}>{stats.approved}</div>
-          <div style={{ fontSize: 16, marginTop: 8 }}>Approved</div>
-        </div>
-        <div style={{ background: 'linear-gradient(135deg, #2a3f5f 0%, #6b8cae 100%)', color: '#fff', borderRadius: 12, padding: 24, textAlign: 'center', boxShadow: '0 4px 16px rgba(0,0,0,0.3)', border: '1px solid #a8c5db' }}>
-          <div style={{ fontSize: 36, fontWeight: 700, color: '#f59e0b' }}>{stats.registrations}</div>
-          <div style={{ fontSize: 16, marginTop: 8, color: '#fff' }}>Registrations</div>
-        </div>
-        <div style={{ background: 'linear-gradient(135deg, #1a2744 0%, #2a3f5f 100%)', color: '#fff', borderRadius: 12, padding: 24, textAlign: 'center', boxShadow: '0 4px 16px rgba(0,0,0,0.3)', border: '1px solid #6b8cae' }}>
-          <div style={{ fontSize: 36, fontWeight: 700, color: '#f59e0b' }}>{stats.tickets}</div>
-          <div style={{ fontSize: 16, marginTop: 8, color: '#a8c5db' }}>Tickets</div>
-        </div>
-        <div style={{ background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)', color: '#fff', borderRadius: 12, padding: 24, textAlign: 'center', boxShadow: '0 4px 16px rgba(99,102,241,0.3)' }}>
-          <div style={{ fontSize: 36, fontWeight: 700 }}>{stats.users}</div>
-          <div style={{ fontSize: 16, marginTop: 8 }}>Users</div>
-        </div>
-      </div>
+    <div style={{ 
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+      padding: '80px 40px',
+      paddingLeft: 20,
+      paddingRight: 20
+    }}>
+      {/* Background Effects */}
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'radial-gradient(circle at 30% 50%, rgba(245,158,11,0.08), transparent 50%)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'radial-gradient(circle at 70% 80%, rgba(59,130,246,0.06), transparent 50%)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
 
-      {/* Charts Section */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 24, marginBottom: 40 }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: 48 }}>
+          <div style={{
+            display: 'inline-block',
+            padding: '8px 20px',
+            background: 'rgba(245,158,11,0.1)',
+            border: '1px solid rgba(245,158,11,0.3)',
+            borderRadius: 30,
+            marginBottom: 24,
+            fontSize: '0.9rem',
+            color: '#f59e0b',
+            fontWeight: 600,
+            letterSpacing: '0.05em'
+          }}>
+            <img src="/crown.png" alt="" style={{ width: 16, height: 16, marginRight: 8, verticalAlign: 'middle' }} /> ADMIN DASHBOARD
+          </div>
+          
+          <h1 style={{
+            fontSize: '2.5rem',
+            fontWeight: 800,
+            color: '#ffffff',
+            marginBottom: 16,
+            letterSpacing: '0.02em'
+          }}>
+            System Overview
+          </h1>
+          <p style={{
+            fontSize: '1.1rem',
+            color: '#cbd5e1',
+            maxWidth: 600,
+            margin: '0 auto'
+          }}>
+            Manage events, registrations, and monitor platform activity
+          </p>
+        </div>
+
+        {/* Stats Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24, marginBottom: 48 }}>
+          <div style={{
+            background: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(148,163,184,0.2)',
+            borderRadius: 16,
+            padding: 32,
+            textAlign: 'center',
+            backdropFilter: 'blur(20px)',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+            transition: 'all 0.3s ease'
+          }}>
+            <div style={{
+              width: 60,
+              height: 60,
+              background: 'linear-gradient(135deg, rgba(245,158,11,0.2) 0%, rgba(245,158,11,0.05) 100%)',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 16px',
+              fontSize: '1.5rem'
+            }}>
+              <img src="/target.png" alt="" style={{ width: 28, height: 28 }} />
+            </div>
+            <div style={{ fontSize: 36, fontWeight: 700, color: '#f59e0b' }}>{stats.events}</div>
+            <div style={{ fontSize: 16, marginTop: 8, color: '#cbd5e1' }}>Total Events</div>
+          </div>
+          
+          <div 
+            style={{
+              background: 'linear-gradient(135deg, rgba(245,158,11,0.15) 0%, rgba(217,119,6,0.1) 100%)',
+              border: '1px solid rgba(245,158,11,0.3)',
+              borderRadius: 16,
+              padding: 32,
+              textAlign: 'center',
+              backdropFilter: 'blur(20px)',
+              boxShadow: '0 20px 40px rgba(245,158,11,0.2)',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease'
+            }}
+            onClick={() => navigate('/admin/events')}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-4px)';
+              e.currentTarget.style.boxShadow = '0 25px 50px rgba(245,158,11,0.3)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 20px 40px rgba(245,158,11,0.2)';
+            }}
+          >
+            <div style={{
+              width: 60,
+              height: 60,
+              background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 16px',
+              fontSize: '1.5rem',
+              color: '#1e293b'
+            }}>
+              <img src="/hourglass.png" alt="" style={{ width: 28, height: 28 }} />
+            </div>
+            <div style={{ fontSize: 36, fontWeight: 700, color: '#f59e0b' }}>{stats.pending}</div>
+            <div style={{ fontSize: 16, marginTop: 8, color: '#e5e7eb', fontWeight: 600 }}>Pending Review</div>
+          </div>
+          
+          <div style={{
+            background: 'rgba(34,197,94,0.1)',
+            border: '1px solid rgba(34,197,94,0.3)',
+            borderRadius: 16,
+            padding: 32,
+            textAlign: 'center',
+            backdropFilter: 'blur(20px)',
+            boxShadow: '0 20px 40px rgba(34,197,94,0.2)',
+            transition: 'all 0.3s ease'
+          }}>
+            <div style={{
+              width: 60,
+              height: 60,
+              background: 'linear-gradient(135deg, rgba(34,197,94,0.2) 0%, rgba(34,197,94,0.05) 100%)',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 16px',
+              fontSize: '1.5rem'
+            }}>
+              ✅
+            </div>
+            <div style={{ fontSize: 36, fontWeight: 700, color: '#22c55e' }}>{stats.approved}</div>
+            <div style={{ fontSize: 16, marginTop: 8, color: '#cbd5e1' }}>Approved</div>
+          </div>
+          
+          <div style={{
+            background: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(148,163,184,0.2)',
+            borderRadius: 16,
+            padding: 32,
+            textAlign: 'center',
+            backdropFilter: 'blur(20px)',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+            transition: 'all 0.3s ease'
+          }}>
+            <div style={{
+              width: 60,
+              height: 60,
+              background: 'linear-gradient(135deg, rgba(59,130,246,0.2) 0%, rgba(59,130,246,0.05) 100%)',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 16px',
+              fontSize: '1.5rem'
+            }}>
+              <img src="/docs.png" alt="" style={{ width: 28, height: 28 }} />
+            </div>
+            <div style={{ fontSize: 36, fontWeight: 700, color: '#3b82f6' }}>{stats.registrations}</div>
+            <div style={{ fontSize: 16, marginTop: 8, color: '#cbd5e1' }}>Registrations</div>
+          </div>
+          
+          <div style={{
+            background: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(148,163,184,0.2)',
+            borderRadius: 16,
+            padding: 32,
+            textAlign: 'center',
+            backdropFilter: 'blur(20px)',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+            transition: 'all 0.3s ease'
+          }}>
+            <div style={{
+              width: 60,
+              height: 60,
+              background: 'linear-gradient(135deg, rgba(168,85,247,0.2) 0%, rgba(168,85,247,0.05) 100%)',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 16px',
+              fontSize: '1.5rem'
+            }}>
+              <img src="/ticket.png" alt="" style={{ width: 28, height: 28 }} />
+            </div>
+            <div style={{ fontSize: 36, fontWeight: 700, color: '#a855f7' }}>{stats.tickets}</div>
+            <div style={{ fontSize: 16, marginTop: 8, color: '#cbd5e1' }}>Tickets</div>
+          </div>
+          
+          <div style={{
+            background: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(148,163,184,0.2)',
+            borderRadius: 16,
+            padding: 32,
+            textAlign: 'center',
+            backdropFilter: 'blur(20px)',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+            transition: 'all 0.3s ease'
+          }}>
+            <div style={{
+              width: 60,
+              height: 60,
+              background: 'linear-gradient(135deg, rgba(239,68,68,0.2) 0%, rgba(239,68,68,0.05) 100%)',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 16px',
+              fontSize: '1.5rem'
+            }}>
+              <img src="/people.png" alt="" style={{ width: 28, height: 28 }} />
+            </div>
+            <div style={{ fontSize: 36, fontWeight: 700, color: '#ef4444' }}>{stats.users}</div>
+            <div style={{ fontSize: 16, marginTop: 8, color: '#cbd5e1' }}>Users</div>
+          </div>
+        </div>
+
+        {/* Charts Section */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 32, marginBottom: 48 }}>
         {/* Event Status Doughnut Chart */}
         <div style={{ background: 'rgba(255,255,255,0.95)', borderRadius: 12, padding: 24, border: '1px solid #6b8cae', boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }}>
           <h3 style={{ color: '#1a2744', marginTop: 0, marginBottom: 20 }}>Event Status Overview</h3>
@@ -334,6 +557,7 @@ function Dashboard() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

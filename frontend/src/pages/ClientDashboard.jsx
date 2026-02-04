@@ -36,18 +36,86 @@ function ClientDashboard() {
 
   if (loading) {
     return (
-      <div className="loading-screen">
-        <img src="/logo.png" alt="Loading" className="loading-logo" />
-        <p className="loading-text">Loading dashboard...</p>
+      <div style={{
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div style={{
+          width: 50,
+          height: 50,
+          border: '4px solid rgba(245,158,11,0.3)',
+          borderTop: '4px solid #f59e0b',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }} />
+        <p style={{ color: '#cbd5e1', marginTop: 16, fontSize: 18, fontWeight: 600 }}>Loading dashboard...</p>
+        <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }
 
   return (
-    <div style={{ maxWidth: 1100, margin: '48px auto', padding: 32 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
-        <h2 style={{ fontSize: 28, color: '#fff', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>Client Dashboard</h2>
-        <button 
+    <div style={{ 
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+      padding: '80px 20px'
+    }}>
+      {/* Background Effects */}
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'radial-gradient(circle at 30% 50%, rgba(245,158,11,0.08), transparent 50%)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'radial-gradient(circle at 70% 80%, rgba(59,130,246,0.06), transparent 50%)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
+
+      <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 48, flexWrap: 'wrap', gap: 20 }}>
+          <div>
+            <div style={{
+              display: 'inline-block',
+              padding: '8px 20px',
+              background: 'rgba(245,158,11,0.1)',
+              border: '1px solid rgba(245,158,11,0.3)',
+              borderRadius: 30,
+              marginBottom: 16,
+              fontSize: '0.9rem',
+              color: '#f59e0b',
+              fontWeight: 600,
+              letterSpacing: '0.05em'
+            }}>
+              <img src="/target.png" alt="" style={{ width: 16, height: 16, marginRight: 8, verticalAlign: 'middle' }} /> CLIENT DASHBOARD
+            </div>
+            <h1 style={{
+              fontSize: '2.5rem',
+              fontWeight: 800,
+              color: '#ffffff',
+              margin: 0,
+              letterSpacing: '0.02em'
+            }}>
+              My Events
+            </h1>
+            <p style={{
+              fontSize: '1.1rem',
+              color: '#cbd5e1',
+              margin: '8px 0 0 0'
+            }}>
+              Manage your submitted events and track their status
+            </p>
+          </div>
+          
+          <button 
           onClick={() => navigate('/submit-event')}
           style={{ 
             background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', 
@@ -149,6 +217,7 @@ function ClientDashboard() {
           ))}
         </div>
       )}
+      </div>
     </div>
   );
 }

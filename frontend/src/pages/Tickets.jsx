@@ -10,13 +10,16 @@ function Tickets() {
   const [loading, setLoading] = useState(true);
   const [cancelConfirm, setCancelConfirm] = useState(null);
   const [cancelling, setCancelling] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-  const fetchData = () => {
+  const fetchData = (search = '') => {
     setLoading(true);
+    const ticketsUrl = search ? `/tickets/?search=${encodeURIComponent(search)}` : '/tickets/';
+    
     Promise.all([
       api.get('/events/'),
-      api.get('/tickets/'),
+      api.get(ticketsUrl),
       api.get('/registrations/')
     ]).then(([eventsRes, ticketsRes, regsRes]) => {
       setEvents(Array.isArray(eventsRes.data) ? eventsRes.data : (eventsRes.data.events || []));
@@ -33,6 +36,11 @@ function Tickets() {
       setRegistrations([]);
       setLoading(false);
     });
+  };
+  
+  const handleSearch = (e) => {
+    e.preventDefault();
+    fetchData(searchQuery);
   };
 
   useEffect(() => {
@@ -81,23 +89,166 @@ function Tickets() {
   // Loading Screen
   if (loading) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
-        <div style={{ 
-          width: 50, height: 50, 
-          border: '4px solid #2a3f5f', 
-          borderTop: '4px solid #f59e0b', 
-          borderRadius: '50%', 
-          animation: 'spin 1s linear infinite' 
+      <div style={{
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div style={{
+          width: 50,
+          height: 50,
+          border: '4px solid rgba(245,158,11,0.3)',
+          borderTop: '4px solid #f59e0b',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
         }} />
-        <p style={{ color: '#fff', marginTop: 16, fontSize: 18 }}>Loading tickets...</p>
+        <p style={{ color: '#cbd5e1', marginTop: 16, fontSize: 18, fontWeight: 600 }}>Loading tickets...</p>
         <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }
 
   return (
-    <div style={{ maxWidth: 700, margin: '48px auto', padding: 32 }}>
-      {/* My Registrations Section */}
+    <div style={{ 
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+      padding: '80px 20px'
+    }}>
+      {/* Background Effects */}
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'radial-gradient(circle at 30% 50%, rgba(245,158,11,0.08), transparent 50%)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'radial-gradient(circle at 70% 80%, rgba(59,130,246,0.06), transparent 50%)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
+
+      <div style={{ maxWidth: 900, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: 48 }}>
+          <div style={{
+            display: 'inline-block',
+            padding: '8px 20px',
+            background: 'rgba(245,158,11,0.1)',
+            border: '1px solid rgba(245,158,11,0.3)',
+            borderRadius: 30,
+            marginBottom: 24,
+            fontSize: '0.9rem',
+            color: '#f59e0b',
+            fontWeight: 600,
+            letterSpacing: '0.05em'
+          }}>
+            <img src="/ticket.png" alt="" style={{ width: 16, height: 16, marginRight: 8, verticalAlign: 'middle' }} /> MY TICKETS & REGISTRATIONS
+          </div>
+          
+          <h1 style={{
+            fontSize: '2.5rem',
+            fontWeight: 800,
+            color: '#ffffff',
+            marginBottom: 16,
+            letterSpacing: '0.02em'
+          }}>
+            My Events
+          </h1>
+          <p style={{
+            fontSize: '1.1rem',
+            color: '#cbd5e1',
+            maxWidth: 600,
+            margin: '0 auto'
+          }}>
+            Manage your event registrations and view your tickets
+          </p>
+        </div>
+
+        {/* Search Bar */}
+        <div style={{ marginBottom: 40 }}>
+          <form onSubmit={handleSearch} style={{ display: 'flex', gap: 12 }}>
+            <input 
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search by event name or location..."
+              style={{
+                flex: 1,
+                padding: '16px 20px',
+                borderRadius: 12,
+                border: '1px solid rgba(148,163,184,0.2)',
+                background: 'rgba(255,255,255,0.05)',
+                fontSize: 16,
+                color: '#e5e7eb',
+                backdropFilter: 'blur(10px)',
+                transition: 'all 0.3s ease'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = 'rgba(245,158,11,0.5)';
+                e.target.style.boxShadow = '0 0 0 3px rgba(245,158,11,0.1)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'rgba(148,163,184,0.2)';
+                e.target.style.boxShadow = 'none';
+              }}
+            />
+            <button 
+              type="submit"
+              style={{
+                padding: '16px 24px',
+                borderRadius: 12,
+                border: 'none',
+                background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                color: '#1e293b',
+                fontWeight: 600,
+                cursor: 'pointer',
+                fontSize: 16,
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.boxShadow = '0 10px 25px rgba(245,158,11,0.3)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = 'none';
+              }}
+            >
+              Search
+            </button>
+            {searchQuery && (
+              <button 
+                type="button"
+                onClick={() => {
+                  setSearchQuery('');
+                  fetchData('');
+                }}
+                style={{
+                  padding: '16px 24px',
+                  borderRadius: 12,
+                  border: '1px solid rgba(148,163,184,0.2)',
+                  background: 'rgba(255,255,255,0.05)',
+                  color: '#e5e7eb',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontSize: 16,
+                  backdropFilter: 'blur(10px)',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Clear
+              </button>
+            )}
+          </form>
+        </div>
+        
+        {/* My Registrations Section */}
       <h2 style={{ marginBottom: 24, color: '#fff', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>My Registrations</h2>
       {registrations.length === 0 ? (
         <div style={{ background: 'rgba(255,255,255,0.95)', borderRadius: 12, padding: 32, textAlign: 'center', border: '1px solid #6b8cae', marginBottom: 48 }}>
@@ -447,6 +598,7 @@ function Tickets() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }
