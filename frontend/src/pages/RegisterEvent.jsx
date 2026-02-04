@@ -472,7 +472,7 @@ function RegisterEvent() {
               <span style={{ color: '#1a2744', fontWeight: 500 }}>{event.location || 'TBD'}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#6b8cae' }}>💰 Price</span>
+              <span style={{ color: '#6b8cae', display: 'flex', alignItems: 'center', gap: 6 }}><img src="/G_Pay.png" alt="" style={{ width: 28, height: 28 }} /> Price</span>
               {event.is_paid ? (
                 <span style={{ color: '#8b5cf6', fontWeight: 700 }}>${parseFloat(event.price).toFixed(2)}</span>
               ) : (

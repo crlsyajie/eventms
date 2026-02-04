@@ -164,7 +164,7 @@ function AdminEvents() {
         {/* Payment Toggle */}
         <div style={{ background: '#f8fafc', borderRadius: 8, padding: 16, marginBottom: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: isPaid ? 12 : 0 }}>
-            <span style={{ color: '#1a2744', fontWeight: 500 }}>💰 Paid Event</span>
+            <span style={{ color: '#1a2744', fontWeight: 500, display: 'flex', alignItems: 'center', gap: 8 }}><img src="/G_Pay.png" alt="" style={{ width: 28, height: 28 }} /> Paid Event</span>
             <label style={{ 
               position: 'relative', 
               display: 'inline-block', 

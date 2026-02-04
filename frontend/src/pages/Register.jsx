@@ -23,7 +23,7 @@ function Register() {
         is_client: isClient
       });
       // Keep spinner visible while navigating
-      setTimeout(() => navigate("/"), 1200);
+      setTimeout(() => navigate("/login"), 1200);
     } catch (err) {
       setLoading(false);
       setError(err.response?.data?.username?.[0] || "Registration failed");
@@ -111,7 +111,10 @@ function Register() {
         </button>
       </form>
       <p style={{ marginTop: 24, textAlign: "center", color: "#6b8cae" }}>
-        Already have an account? <Link to="/" style={{ color: "#f59e0b", fontWeight: 600 }}>Login</Link>
+        Already have an account? <Link to="/login" style={{ color: "#f59e0b", fontWeight: 600 }}>Login</Link>
+      </p>
+      <p style={{ marginTop: 12, textAlign: "center" }}>
+        <Link to="/" style={{ color: "#a8c5db", fontSize: "0.9rem", textDecoration: "none" }}>Back to Home</Link>
       </p>
     </div>
   );

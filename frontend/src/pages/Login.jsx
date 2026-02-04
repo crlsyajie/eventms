@@ -73,6 +73,9 @@ function Login() {
       <p style={{ marginTop: 24, textAlign: "center", color: "#6b8cae" }}>
         Don't have an account? <Link to="/register" style={{ color: "#f59e0b", fontWeight: 600 }}>Register</Link>
       </p>
+      <p style={{ marginTop: 12, textAlign: "center" }}>
+        <Link to="/" style={{ color: "#a8c5db", fontSize: "0.9rem", textDecoration: "none" }}>← Back to Home</Link>
+      </p>
     </div>
   );
 }

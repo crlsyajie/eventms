@@ -38,7 +38,7 @@ function SideNavbar() {
       <div style={{ marginTop: "auto", marginLeft: 16, marginBottom: 32 }}>
         <button 
           onClick={handleLogout} 
-          style={{ background: "#f59e0b", color: "#1a2744", border: 0, borderRadius: 6, padding: "8px 16px", fontWeight: 600, cursor: "pointer", marginTop: 12 }}
+          style={{ background: "#f59e0b", color: "#1a2744", border: 0, borderRadius: 6, padding: "8px 65px", fontWeight: 600, cursor: "pointer", marginTop: 12 }}
         >
           Logout
         </button>

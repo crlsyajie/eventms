@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Events from "./pages/Events";
@@ -17,14 +18,14 @@ import SideNavbar from "./components/SideNavbar";
 
 function ProtectedRoute({ children, adminOnly }) {
   const user = JSON.parse(localStorage.getItem("user") || "null");
-  if (!user) return <Navigate to="/" />;
+  if (!user) return <Navigate to="/login" />;
   if (adminOnly && !user.is_admin) return <Navigate to="/events" />;
   return children;
 }
 
 function AppRoutes() {
   const location = useLocation();
-  const hideNavbar = location.pathname === "/" || location.pathname === "/register";
+  const hideNavbar = location.pathname === "/" || location.pathname === "/login" || location.pathname === "/register";
   const user = JSON.parse(localStorage.getItem("user") || "null");
   const isAdminRoute = user?.is_admin && ["/dashboard", "/admin/events", "/admin/registrations"].some(p => location.pathname.startsWith(p));
   return (
@@ -32,7 +33,8 @@ function AppRoutes() {
       {!hideNavbar && (isAdminRoute ? <SideNavbar /> : <Navbar />)}
       <div style={isAdminRoute ? { marginLeft: 220 } : {}}>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
           <Route path="/client-events" element={<ProtectedRoute><ClientEvents /></ProtectedRoute>} />
