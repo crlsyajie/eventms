@@ -17,5 +17,11 @@ class Event(models.Model):
 	status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
 	submitted_by = models.ForeignKey('users.User', on_delete=models.SET_NULL, null=True, blank=True)
 
+	class Meta:
+		db_table = 'events'
+		verbose_name = 'Event'
+		verbose_name_plural = 'Events'
+		ordering = ['-date']
+
 	def __str__(self):
 		return self.title

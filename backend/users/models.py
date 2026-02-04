@@ -6,5 +6,10 @@ class User(AbstractUser):
     is_admin = models.BooleanField(default=False)
     is_client = models.BooleanField(default=False)
 
+    class Meta:
+        db_table = 'users'
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
+
     def __str__(self):
         return self.username

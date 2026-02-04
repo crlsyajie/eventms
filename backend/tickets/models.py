@@ -10,6 +10,12 @@ class Ticket(models.Model):
 	seat = models.CharField(max_length=20, blank=True)
 	issued_at = models.DateTimeField(auto_now_add=True)
 
+	class Meta:
+		db_table = 'tickets'
+		verbose_name = 'Ticket'
+		verbose_name_plural = 'Tickets'
+		ordering = ['-issued_at']
+
 	@property
 	def ticket_number(self):
 		# Generate unique hash from event_id + registration_id + ticket_id for fraud prevention
