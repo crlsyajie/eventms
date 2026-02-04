@@ -21,15 +21,6 @@ function ClientEvents() {
       });
   }, []);
 
-  if (loading) {
-    return (
-      <div className="loading-screen">
-        <img src="/logo.png" alt="Loading" className="loading-logo" />
-        <p className="loading-text">Loading events...</p>
-      </div>
-    );
-  }
-
   return (
     <div style={{ maxWidth: 1000, margin: '48px auto', padding: 32 }}>
       <h2 style={{ marginBottom: 24, color: '#fff', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>

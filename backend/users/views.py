@@ -83,6 +83,37 @@ def profile_view(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
+def update_user_by_id(request, user_id):
+    """Update user profile by user ID - replaces old username with new one"""
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    new_username = request.data.get('username')
+    new_email = request.data.get('email')
+    
+    # Check if new username is taken by another user
+    if new_username and new_username != user.username:
+        if User.objects.filter(username=new_username).exclude(id=user_id).exists():
+            return Response({'error': 'Username already taken'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Check if new email is taken by another user
+    if new_email and new_email != user.email:
+        if User.objects.filter(email=new_email).exclude(id=user_id).exists():
+            return Response({'error': 'Email already taken'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Update user fields (this replaces the old values)
+    if new_username:
+        user.username = new_username
+    if new_email:
+        user.email = new_email
+    
+    user.save()
+    
+    return Response(UserSerializer(user).data)
+
+@api_view(['PUT'])
 def update_profile(request):
     # Get user from request data (simplified - in production use proper authentication)
     username = request.data.get('username')

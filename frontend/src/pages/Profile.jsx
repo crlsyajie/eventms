@@ -42,15 +42,22 @@ function Profile() {
     setError("");
 
     try {
-      // Mock update - in real app this would call the backend
-      const updatedUser = { ...user, ...formData };
+      // Call the backend API to update the user profile
+      const response = await api.put(`/users/${user.id}/update/`, {
+        username: formData.username,
+        email: formData.email,
+        current_username: user.username  // Send old username to identify user
+      });
+      
+      // Update localStorage with the new user data
+      const updatedUser = { ...user, ...response.data };
       localStorage.setItem("user", JSON.stringify(updatedUser));
       setUser(updatedUser);
       
       setMessage("Profile updated successfully!");
       setTimeout(() => setMessage(""), 3000);
     } catch (err) {
-      setError(err.response?.data?.error || "Failed to update profile");
+      setError(err.response?.data?.error || err.response?.data?.username?.[0] || "Failed to update profile");
     } finally {
       setLoading(false);
     }

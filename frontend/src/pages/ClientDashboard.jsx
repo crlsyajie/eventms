@@ -34,29 +34,6 @@ function ClientDashboard() {
     return () => clearInterval(interval);
   }, [user.id, user.is_client, navigate]);
 
-  if (loading) {
-    return (
-      <div style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <div style={{
-          width: 50,
-          height: 50,
-          border: '4px solid rgba(245,158,11,0.3)',
-          borderTop: '4px solid #f59e0b',
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite'
-        }} />
-        <p style={{ color: '#cbd5e1', marginTop: 16, fontSize: 18, fontWeight: 600 }}>Loading dashboard...</p>
-        <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
-      </div>
-    );
-  }
-
   return (
     <div style={{ 
       minHeight: '100vh',

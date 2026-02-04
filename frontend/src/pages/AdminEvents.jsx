@@ -113,16 +113,6 @@ function AdminEvents() {
       });
   };
 
-  // Loading Screen
-  if (loading) {
-    return (
-      <div className="loading-screen">
-        <img src="/logo.png" alt="Loading" className="loading-logo" />
-        <p className="loading-text">Loading events...</p>
-      </div>
-    );
-  }
-
   const pendingEvents = events.filter(e => e.status === 'pending');
   const approvedEvents = events.filter(e => e.status === 'approved');
   const filteredEvents = filter === 'pending' ? pendingEvents : filter === 'approved' ? approvedEvents : events;
