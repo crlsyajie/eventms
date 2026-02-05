@@ -13,6 +13,7 @@ This repo contains a sample project structure for EventMS.
 - test-cases.md
 - deployment.md
 - future-enhancements.md
+- **API.md** - Complete API endpoint documentation
 
 See `structure.md` for a quick layout overview.
 ------------------
@@ -88,9 +89,36 @@ This folder contains the Django REST API backend for the Event Management System
    ```
 
 ## API Endpoints
-- `/api/events/` - List, create, update, delete events
-- `/api/registrations/` - Register for events, view registrations
-- `/api/tickets/` - Manage and view tickets
+
+### Users
+- `POST /api/users/register/` - Register a new user
+- `POST /api/users/login/` - User login
+- `GET /api/users/` - List all users
+- `GET /api/users/profile/` - Get user profile (authenticated)
+- `PUT /api/users/profile/` - Update user profile (authenticated)
+- `PUT /api/users/<user_id>/update/` - Update user by ID
+
+### Events
+- `GET /api/events/` - List events (filtered by role/status)
+- `POST /api/events/` - Create new event
+- `GET /api/events/<event_id>/` - Get event details
+- `PUT /api/events/<event_id>/` - Update event
+- `DELETE /api/events/<event_id>/` - Delete event
+- `POST /api/events/<event_id>/approve/` - Approve/reject event (admin only)
+- `GET /api/events/my-submissions/` - Get user's submitted events
+
+### Registrations
+- `GET /api/registrations/` - List all registrations
+- `POST /api/registrations/` - Create registration
+- `GET /api/registrations/<registration_id>/` - Get registration details
+- `PUT /api/registrations/<registration_id>/` - Update registration
+- `DELETE /api/registrations/<registration_id>/` - Cancel registration
+
+### Tickets
+- `GET /api/tickets/` - List all tickets (supports search)
+- `POST /api/tickets/` - Create ticket
+
+**📘 For complete API documentation with request/response examples, see [docs/API.md](docs/API.md)**
 
 ---
 

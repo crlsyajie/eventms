@@ -174,7 +174,7 @@ function Registrations() {
               >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
-                  <h3 style={{ margin: 0, color: '#1a2744', fontSize: 20 }}>{getEventTitle(r.event)}</h3>
+                  <h3 style={{ margin: 0, color: '#fff', fontSize: 20 }}>{getEventTitle(r.event)}</h3>
                   <p style={{ color: '#6b8cae', margin: '8px 0 0 0' }}>
                     <span style={{ marginRight: 16 }}> {getEventDate(r.event)}</span>
                     <span> {getEventLocation(r.event)}</span>

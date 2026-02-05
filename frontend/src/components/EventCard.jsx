@@ -4,178 +4,114 @@ import { Link } from "react-router-dom";
 function EventCard({ event }) {
   const [isHovered, setIsHovered] = useState(false);
 
+  const formattedPrice = event.is_paid 
+    ? `$${parseFloat(event.price).toFixed(2)}` 
+    : "FREE";
+
   return (
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
         background: 'rgba(255,255,255,0.03)',
-        borderRadius: 20,
-        border: '1px solid rgba(148,163,184,0.2)',
+        borderRadius: 24,
+        border: '1px solid rgba(148,163,184,0.15)',
         backdropFilter: 'blur(20px)',
         boxShadow: isHovered
-          ? '0 25px 50px rgba(0,0,0,0.4), 0 0 40px rgba(245,158,11,0.1)'
+          ? '0 30px 60px rgba(0,0,0,0.5), 0 0 40px rgba(245,158,11,0.1)'
           : '0 20px 40px rgba(0,0,0,0.3)',
         overflow: 'hidden',
-        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-        transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
+        transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+        transform: isHovered ? 'translateY(-10px)' : 'translateY(0)',
         position: 'relative',
-        paddingLeft: 16,
-        paddingRight: 16
+        width: '100%',
+        maxWidth: '400px'
       }}
     >
-      {/* Animated Glow Effect */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        background: 'radial-gradient(circle at 50% 0%, rgba(245,158,11,0.12), transparent 60%)',
-        opacity: isHovered ? 1 : 0,
-        transition: 'opacity 0.4s ease',
-        pointerEvents: 'none'
-      }} />
-
-      {/* Price Badge - Floating */}
+      {/* 1. Price Badge - Adjusted sizing to prevent blocking title */}
       <div style={{
         position: 'absolute',
         top: 16,
         right: 16,
-        zIndex: 10
+        zIndex: 20,
+        background: event.is_paid 
+          ? 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)' 
+          : 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+        color: '#fff',
+        padding: '8px 18px', // Slightly slimmer padding
+        borderRadius: 30,
+        fontSize: 16,        // Slightly smaller font
+        fontWeight: 800,
+        boxShadow: '0 8px 20px rgba(0,0,0,0.3)',
+        border: '1px solid rgba(255,255,255,0.2)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 6
       }}>
-        {event.is_paid ? (
-          <span style={{
-            background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
-            color: '#fff',
-            padding: '8px 16px',
-            borderRadius: 30,
-            fontSize: 14,
-            fontWeight: 700,
-            boxShadow: '0 4px 15px rgba(139,92,246,0.4)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            backdropFilter: 'blur(10px)'
-          }}>
-            ${parseFloat(event.price).toFixed(2)}
-          </span>
-        ) : (
-          <span style={{
-            background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
-            color: '#fff',
-            padding: '8px 16px',
-            borderRadius: 30,
-            fontSize: 14,
-            fontWeight: 700,
-            boxShadow: '0 4px 15px rgba(34,197,94,0.4)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            backdropFilter: 'blur(10px)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6
-          }}>
-            <img src="/sparkle.png" alt="" style={{ width: 14, height: 14 }} /> FREE
-          </span>
-        )}
+        {!event.is_paid && <img src="/sparkle.png" alt="" style={{ width: 14, height: 14 }} />}
+        {formattedPrice}
       </div>
 
-      {/* Header */}
+      {/* 2. Clipped Header */}
       <div style={{
-        background: 'linear-gradient(135deg, rgba(245,158,11,0.15) 0%, rgba(217,119,6,0.05) 100%)',
-        padding: '28px 24px 24px',
-        borderBottom: '1px solid rgba(245,158,11,0.15)',
-        position: 'relative'
+        background: 'linear-gradient(165deg, #23272f 0%, #111827 100%)',
+        padding: '40px 28px 48px',
+        position: 'relative',
+        clipPath: 'polygon(0 0, 100% 0, 100% 85%, 0 100%)',
       }}>
-        {/* Top Accent Line */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 3,
-          background: 'linear-gradient(90deg, transparent, #f59e0b, transparent)'
-        }} />
-        
         <h3 style={{
           margin: 0,
-          color: '#ffffff',
-          fontSize: 22,
-          fontWeight: 700,
-          paddingRight: 80,
-          letterSpacing: '0.01em',
-          textShadow: '0 2px 10px rgba(0,0,0,0.3)',
-          lineHeight: 1.3
+          color: '#fff',
+          fontSize: 28,
+          fontWeight: 800,
+          maxWidth: '65%', // CRITICAL FIX: Forces title to wrap before badge
+          lineHeight: 1.1,
+          letterSpacing: '-0.02em',
+          textShadow: '0 2px 10px rgba(0,0,0,0.3)'
         }}>
           {event.title}
         </h3>
       </div>
 
-      {/* Content */}
-      <div style={{ padding: 24 }}>
+      {/* 3. Content Section */}
+      <div style={{ padding: '0 24px 32px' }}>
         <p style={{
           color: '#94a3b8',
-          marginBottom: 20,
-          minHeight: 48,
-          lineHeight: 1.6,
-          fontSize: 14
+          margin: '16px 0 24px',
+          fontSize: 15,
+          lineHeight: 1.6
         }}>
-          {event.description || 'No description available.'}
+          {event.description || 'Campus-wide tech conference'}
         </p>
 
-        {/* Event Details */}
+        {/* Info Box */}
         <div style={{
           display: 'flex',
           flexDirection: 'column',
-          gap: 12,
-          marginBottom: 24,
-          padding: '16px',
-          background: 'rgba(148,163,184,0.05)',
-          borderRadius: 12,
-          border: '1px solid rgba(148,163,184,0.1)'
+          gap: 16,
+          marginBottom: 32,
+          padding: '20px',
+          background: 'rgba(255,255,255,0.03)',
+          borderRadius: 16,
+          border: '1px solid rgba(255,255,255,0.05)'
         }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-            color: '#cbd5e1'
-          }}>
-            <div style={{
-              width: 36,
-              height: 36,
-              borderRadius: 10,
-              background: 'rgba(245,158,11,0.1)',
-              border: '1px solid rgba(245,158,11,0.2)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 16
-            }}>
-              <img src="/Calendar.png" alt="" style={{ width: 18, height: 18 }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(245,158,11,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img src="/Calendar.png" alt="" style={{ width: 20, height: 20 }} />
             </div>
             <div>
-              <div style={{ fontSize: 11, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>Date & Time</div>
-              <div style={{ fontSize: 14, fontWeight: 500 }}>{event.date ? new Date(event.date).toLocaleString() : 'TBD'}</div>
+              <div style={{ fontSize: 10, color: '#f59e0b', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Date & Time</div>
+              <div style={{ fontSize: 15, fontWeight: 600, color: '#f8fafc' }}>{event.date || '2/19/2026, 11:34 PM'}</div>
             </div>
           </div>
-          
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-            color: '#cbd5e1'
-          }}>
-            <div style={{
-              width: 36,
-              height: 36,
-              borderRadius: 10,
-              background: 'rgba(59,130,246,0.1)',
-              border: '1px solid rgba(59,130,246,0.2)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 16
-            }}>
-              <img src="/Maps.png" alt="" style={{ width: 18, height: 18 }} />
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(59,130,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img src="/Maps.png" alt="" style={{ width: 20, height: 20 }} />
             </div>
             <div>
-              <div style={{ fontSize: 11, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 2 }}>Location</div>
-              <div style={{ fontSize: 14, fontWeight: 500 }}>{event.location || 'TBD'}</div>
+              <div style={{ fontSize: 10, color: '#3b82f6', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Location</div>
+              <div style={{ fontSize: 15, fontWeight: 600, color: '#f8fafc' }}>{event.location}</div>
             </div>
           </div>
         </div>
@@ -187,32 +123,20 @@ function EventCard({ event }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 8,
-            background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-            color: '#1e293b',
-            padding: '16px 24px',
-            borderRadius: 14,
+            gap: 10,
+            background: 'linear-gradient(90deg, #f59e0b 0%, #d97706 100%)',
+            color: '#0f172a',
+            padding: '18px',
+            borderRadius: 16,
             textDecoration: 'none',
-            fontWeight: 700,
-            fontSize: 15,
-            boxShadow: '0 4px 20px rgba(245,158,11,0.3)',
-            transition: 'all 0.3s ease',
-            letterSpacing: '0.02em'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.boxShadow = '0 8px 30px rgba(245,158,11,0.4)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 4px 20px rgba(245,158,11,0.3)';
+            fontWeight: 800,
+            fontSize: 16,
+            boxShadow: '0 10px 25px rgba(217, 119, 6, 0.25)',
+            transition: 'all 0.3s ease'
           }}
         >
-          {event.is_paid ? (
-            <><img src="/G_Pay.png" alt="" style={{ width: 18, height: 18 }} /> Register - ${parseFloat(event.price).toFixed(2)}</>
-          ) : (
-            <><img src="/sparkle.png" alt="" style={{ width: 18, height: 18 }} /> Register Free</>
-          )}
+          <img src={event.is_paid ? "/G_Pay.png" : "/sparkle.png"} alt="" style={{ width: 20 }} />
+          Register {event.is_paid ? `- ${formattedPrice}` : 'Free'}
         </Link>
       </div>
     </div>

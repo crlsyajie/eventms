@@ -272,7 +272,7 @@ function SideNavbar() {
             e.currentTarget.style.boxShadow = '0 4px 15px rgba(245,158,11,0.3)';
           }}
         >
-          <img src="/logout.png" alt="" style={{ width: 18, height: 18 }} />
+          <img src="/back.png" alt="" style={{ width: 18, height: 18 }} />
           Logout
         </button>
       </div>

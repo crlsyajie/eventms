@@ -7,4 +7,3 @@ Root layout (high-level):
 - `/frontend` — client application
 - `README.md` — project overview and quick start
 
-Each folder should include a README explaining its purpose and setup. The `/docs` folder contains the design and operational docs created below.

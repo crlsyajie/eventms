@@ -54,7 +54,7 @@ function ProductCard({ product }) {
         
         <h3 style={{
           margin: 0,
-          color: '#ffffff',
+          color: '#fff',
           fontSize: 22,
           fontWeight: 700,
           letterSpacing: '0.01em',
