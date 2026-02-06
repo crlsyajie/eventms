@@ -71,6 +71,9 @@ body::before {
 .btn:hover{border-color:#d97706}
 .btn.secondary{background:#e5e7eb;color:#111;border:2px solid #cbd5e1}
 
+/*Ticket Popup Styles*/
+
+
 /* Glowing Logo Loading Screen */
 .loading-screen {
 	position: fixed;

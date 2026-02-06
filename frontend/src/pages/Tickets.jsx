@@ -29,6 +29,9 @@ function Tickets() {
       // Filter registrations for current user
       const userRegs = regData.filter(r => r.user_name === user.username);
       setRegistrations(userRegs);
+      // NEW: Filter tickets to only those linked to the user's registrations
+      const userTickets = ticketData.filter(t => userRegs.some(r => r.id === t.registration));
+      setTickets(userTickets);  // Use filtered tickets instead of all ticketData
       setLoading(false);
     }).catch(() => {
       setEvents([]);
