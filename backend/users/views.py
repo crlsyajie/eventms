@@ -2,6 +2,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status, permissions
 from django.contrib.auth import authenticate
+from django.utils import timezone
+from datetime import timedelta
 from .models import User
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
 
@@ -17,15 +19,51 @@ def register(request):
 def login(request):
     serializer = LoginSerializer(data=request.data)
     if serializer.is_valid():
+        username = serializer.validated_data['username']
+        password = serializer.validated_data['password']
+
+        # Check for user and lockout
+        try:
+            user_obj = User.objects.get(username=username)
+        except User.DoesNotExist:
+            user_obj = None
+
+        if user_obj:
+            if user_obj.lockout_until and user_obj.lockout_until > timezone.now():
+                wait_time = int((user_obj.lockout_until - timezone.now()).total_seconds())
+                minutes = wait_time // 60
+                seconds = wait_time % 60
+                return Response(
+                    {'error': f'Account locked. Please try again in {minutes}m {seconds}s.'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+
         user = authenticate(
-            username=serializer.validated_data['username'],
-            password=serializer.validated_data['password']
+            username=username,
+            password=password
         )
         if user:
+            # Login successful, reset counters
+            user.failed_login_attempts = 0
+            user.lockout_until = None
+            user.save()
             return Response({
                 'user': UserSerializer(user).data,
                 'message': 'Login successful'
             })
+
+        # Login failed
+        if user_obj:
+            user_obj.failed_login_attempts += 1
+            if user_obj.failed_login_attempts >= 3:
+                user_obj.lockout_until = timezone.now() + timedelta(minutes=2)
+                user_obj.save()
+                return Response(
+                    {'error': 'Account locked due to too many failed attempts. Please wait 2 minutes.'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+            user_obj.save()
+
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
