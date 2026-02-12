@@ -123,3 +123,9 @@ This folder contains the Django REST API backend for the Event Management System
 ---
 
 See each app folder for models, serializers, and views.
+
+---
+Best Website Experience
+Laptop:1440px,1024px
+Tablet: 768px
+
