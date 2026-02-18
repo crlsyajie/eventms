@@ -1,5 +1,11 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+from django.utils import timezone
 
+
+def validate_future_date(value):
+	if value < timezone.now():
+		raise ValidationError('The event date cannot be in the past.')
 
 
 class Event(models.Model):
@@ -10,7 +16,7 @@ class Event(models.Model):
 	]
 	title = models.CharField(max_length=200)
 	description = models.TextField(blank=True)
-	date = models.DateTimeField()
+	date = models.DateTimeField(validators=[validate_future_date])
 	location = models.CharField(max_length=200)
 	is_paid = models.BooleanField(default=False)
 	price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)

@@ -93,6 +93,8 @@ STATIC_URL = '/static/'
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:5175",
     "http://127.0.0.1:5173",
     "http://192.168.1.49:5173",
     "http://192.168.21.73:5173",
@@ -102,4 +104,4 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = ["http://192.168.1.49:5173", "http://192.168.21.73:5173"]
+CSRF_TRUSTED_ORIGINS = ["http://192.168.1.49:5173", "http://192.168.21.73:5173", "http://localhost:5173", "http://localhost:5174", "http://localhost:5175"]
