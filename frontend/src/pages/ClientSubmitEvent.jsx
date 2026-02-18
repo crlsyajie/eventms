@@ -16,10 +16,21 @@ function ClientSubmitEvent() {
 
   const user = JSON.parse(localStorage.getItem("user") || '{}');
 
+  // Get current date-time in local format (YYYY-MM-DDTHH:MM)
+  const now = new Date();
+  const minDate = new Date(now.getTime() - (now.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+
+    if (new Date(date) < new Date()) {
+      setError("Event date cannot be in the past.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await api.post("/events/", {
         title,
@@ -60,7 +71,7 @@ function ClientSubmitEvent() {
         <label style={{ color: "#2a3f5f", fontWeight: 500, marginBottom: 8, display: "block" }}>Description</label>
         <textarea style={{ width: "100%", padding: 12, borderRadius: 6, border: "1px solid #6b8cae", marginBottom: 16, fontSize: 16 }} value={description} onChange={e => setDescription(e.target.value)} required />
         <label style={{ color: "#2a3f5f", fontWeight: 500, marginBottom: 8, display: "block" }}>Date & Time</label>
-        <input type="datetime-local" style={{ width: "100%", padding: 12, borderRadius: 6, border: "1px solid #6b8cae", marginBottom: 16, fontSize: 16 }} value={date} onChange={e => setDate(e.target.value)} required />
+        <input type="datetime-local" min={minDate} style={{ width: "100%", padding: 12, borderRadius: 6, border: "1px solid #6b8cae", marginBottom: 16, fontSize: 16 }} value={date} onChange={e => setDate(e.target.value)} required />
         <label style={{ color: "#2a3f5f", fontWeight: 500, marginBottom: 8, display: "block" }}>Location</label>
         <input style={{ width: "100%", padding: 12, borderRadius: 6, border: "1px solid #6b8cae", marginBottom: 16, fontSize: 16, boxSizing: "border-box" }} value={location} onChange={e => setLocation(e.target.value)} required />
         
