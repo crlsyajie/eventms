@@ -1,118 +1,131 @@
-# EventMS - Event Management System
+# EventMS (project)
 
-EventMS is a comprehensive Event Management System designed to facilitate the creation, management, and registration of events. It features a robust backend for handling data and logic, and a modern frontend for a seamless user experience.
+This repo contains a sample project structure for EventMS.
 
-## Technologies Used
+## Files and folders created
+- docs/ — documentation and design artifacts
+- backend/ — backend source (placeholder)
+- frontend/ — frontend source (placeholder)
 
-### Backend
-- **Framework**: Django 4.2
-- **API**: Django REST Framework (DRF) 3.15.2
-- **CORS**: django-cors-headers 4.3.0
-- **Database**: SQLite (default, configurable)
+## Docs included
+- requirements.md
+- system-design.md
+- test-cases.md
+- deployment.md
+- future-enhancements.md
+- **API.md** - Complete API endpoint documentation
 
-### Frontend
-- **Framework**: React 18.2.0
-- **Build Tool**: Vite 5.0.0
-- **HTTP Client**: Axios
-- **Routing**: React Router DOM
-- **Charts**: Chart.js, React Chartjs 2
+See `structure.md` for a quick layout overview.
+------------------
 
-## Project Structure
+# Frontend (EventMS)
 
-The repository is organized into the following main directories:
+This folder contains a minimal React + Vite scaffold.
 
-- `backend/`: Contains the Django project source code.
-    - `eventms_backend/`: Project settings and configuration.
-    - `events/`: App for event listing and management.
-    - `registrations/`: App for user registrations.
-    - `tickets/`: App for ticket management.
-    - `users/`: App for user authentication and profiles.
-- `frontend/`: Contains the React frontend source code.
-    - `src/`: Source files including components, pages, and services.
-- `docs/`: Documentation files (API, system design, etc.).
+To run locally:
 
-## Manual Setup
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-Follow these instructions to set up the project locally.
+Files of interest:
+- `src/api/axios.js` — axios instance
+- `src/components` — UI components
+- `src/pages` — page views
+- `src/services` — API wrappers
 
-### Backend Setup
 
-1.  Navigate to the backend directory:
-    ```bash
-    cd backend
-    ```
+-------------------
+# Backend - Event Management System
 
-2.  Create a virtual environment:
-    ```bash
-    python3 -m venv venv
-    ```
+This folder contains the Django REST API backend for the Event Management System.
 
-3.  Activate the virtual environment:
-    - On macOS/Linux:
-        ```bash
-        source venv/bin/activate
-        ```
-    - On Windows:
-        ```bash
-        venv\Scripts\activate
-        ```
+## Structure
+- Django project: `eventms_backend`
+- Apps:
+  - `events`: Event listing and management
+  - `registrations`: User registrations for events
+  - `tickets`: Ticket management
 
-4.  Install the required dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
+## Setup
+1. Create a virtual environment and activate it:
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+2. Install dependencies:
+   ```bash
+   pip install django djangorestframework django-cors-headers
+   ```
+3. Start the Django project:
+   ```bash
+   django-admin startproject eventms_backend .
+   ```
+4. Create the apps:
+   ```bash
+   python manage.py startapp events
+   python manage.py startapp registrations
+   python manage.py startapp tickets
+   ```
+5. Add the apps and required packages to `INSTALLED_APPS` in `eventms_backend/settings.py`:
+   - `rest_framework`
+   - `corsheaders`
+   - `events`
+   - `registrations`
+   - `tickets`
+6. Configure CORS in `settings.py`:
+   ```python
+   CORS_ALLOW_ALL_ORIGINS = True
+   ```
+7. Run migrations:
+   ```bash
+   python manage.py migrate
+   ```
+8. Run the server:
+   ```bash
+   python manage.py runserver
+   ```
 
-5.  Run database migrations:
-    ```bash
-    python manage.py migrate
-    ```
+## API Endpoints
 
-6.  Start the development server:
-    ```bash
-    python manage.py runserver
-    ```
-    The backend API will be available at `http://localhost:8000/api/`.
+### Users
+- `POST /api/users/register/` - Register a new user
+- `POST /api/users/login/` - User login
+- `GET /api/users/` - List all users
+- `GET /api/users/profile/` - Get user profile (authenticated)
+- `PUT /api/users/profile/` - Update user profile (authenticated)
+- `PUT /api/users/<user_id>/update/` - Update user by ID
 
-### Frontend Setup
+### Events
+- `GET /api/events/` - List events (filtered by role/status)
+- `POST /api/events/` - Create new event
+- `GET /api/events/<event_id>/` - Get event details
+- `PUT /api/events/<event_id>/` - Update event
+- `DELETE /api/events/<event_id>/` - Delete event
+- `POST /api/events/<event_id>/approve/` - Approve/reject event (admin only)
+- `GET /api/events/my-submissions/` - Get user's submitted events
 
-1.  Navigate to the frontend directory:
-    ```bash
-    cd frontend
-    ```
+### Registrations
+- `GET /api/registrations/` - List all registrations
+- `POST /api/registrations/` - Create registration
+- `GET /api/registrations/<registration_id>/` - Get registration details
+- `PUT /api/registrations/<registration_id>/` - Update registration
+- `DELETE /api/registrations/<registration_id>/` - Cancel registration
 
-2.  Install the dependencies:
-    ```bash
-    npm install
-    ```
+### Tickets
+- `GET /api/tickets/` - List all tickets (supports search)
+- `POST /api/tickets/` - Create ticket
 
-3.  Start the development server:
-    ```bash
-    npm run dev
-    ```
-    The application will be accessible at `http://localhost:5173`.
+**📘 For complete API documentation with request/response examples, see [docs/API.md](docs/API.md)**
 
-## API Documentation
+---
 
-The backend exposes a RESTful API. Below is a high-level overview of the main resources. For detailed documentation, including request/response examples, please refer to [docs/API.md](docs/API.md).
+See each app folder for models, serializers, and views.
 
-### Main Endpoints
+---
+Best Website Experience
+Laptop:1440px,1024px
+Tablet: 768px
 
--   **Users**
-    -   `POST /api/users/register/` - Register a new user
-    -   `POST /api/users/login/` - User login
-    -   `GET /api/users/profile/` - Get current user profile
-
--   **Events**
-    -   `GET /api/events/` - List events
-    -   `POST /api/events/` - Create a new event
-    -   `GET /api/events/<id>/` - Get event details
-
--   **Registrations**
-    -   `POST /api/registrations/` - Register for an event
-    -   `GET /api/registrations/` - List registrations
-
--   **Tickets**
-    -   `GET /api/tickets/` - List tickets
-    -   `POST /api/tickets/` - Issue a ticket
-
-See [docs/API.md](docs/API.md) for the complete API reference.
