@@ -25,7 +25,10 @@ function EventCard({ event }) {
         transform: isHovered ? 'translateY(-10px)' : 'translateY(0)',
         position: 'relative',
         width: '100%',
-        maxWidth: '400px'
+        maxWidth: '400px',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%'
       }}
     >
       {/* 1. Price Badge - Adjusted sizing to prevent blocking title */}
@@ -74,7 +77,12 @@ function EventCard({ event }) {
       </div>
 
       {/* 3. Content Section */}
-      <div style={{ padding: '0 24px 32px' }}>
+      <div style={{
+        padding: '0 24px 32px',
+        display: 'flex',
+        flexDirection: 'column',
+        flex: 1
+      }}>
         <p style={{
           color: '#94a3b8',
           margin: '16px 0 24px',
@@ -132,7 +140,8 @@ function EventCard({ event }) {
             fontWeight: 800,
             fontSize: 16,
             boxShadow: '0 10px 25px rgba(217, 119, 6, 0.25)',
-            transition: 'all 0.3s ease'
+            transition: 'all 0.3s ease',
+            marginTop: 'auto'
           }}
         >
           <img src={event.is_paid ? "/G_Pay.png" : "/sparkle.png"} alt="" style={{ width: 20 }} />
